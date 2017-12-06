@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { COMMON_NAMES } from './common-names';
+import { COMMON_NAMES, COMMON_TAGS } from './common-names';
 
 /**
  * Demo app showing usage of the mentions directive.
@@ -11,5 +11,9 @@ import { COMMON_NAMES } from './common-names';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  items: string[] = COMMON_NAMES;
+  items: string[]|any = {
+    '@': COMMON_NAMES,
+    '#': COMMON_TAGS
+  };
+  //items: string[] = COMMON_NAMES;
 }

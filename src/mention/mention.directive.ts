@@ -31,8 +31,12 @@ const KEY_2 = 50;
 })
 export class MentionDirective implements OnInit, OnChanges {
 
-  @Input() set mention(items:any[]){
-    this.items = items;
+  @Input() set mention(items:any[]|any){
+    if(Array.isArray(items)) {
+      this.items = items;
+    } else {
+      this.itemsObject = items;
+    }
   }
 
   @Input() set mentionConfig(config:any) {
@@ -51,7 +55,7 @@ export class MentionDirective implements OnInit, OnChanges {
   @Output() searchTerm = new EventEmitter();
 
   // the character that will trigger the menu behavior
-  private triggerChar: string | number = "@";
+  private triggerChar: string | number | string[] = ['@', '#'];
 
   // option to specify the field in the objects to be used as the item label
   private labelKey:string = 'label';
@@ -64,16 +68,18 @@ export class MentionDirective implements OnInit, OnChanges {
   private maxItems:number = -1;
 
   // optional function to format the selected item before inserting the text
-  private mentionSelect: (item: any) => (string) = (item: any) => this.triggerChar + item[this.labelKey];
+  private mentionSelect: (item: any) => (string) = (item: any) => this.charPressed + item[this.labelKey];
 
   searchString: string;
   startPos: number;
   items: any[];
+  itemsObject: any;
   startNode;
   searchList: MentionListComponent;
   stopSearch: boolean;
   iframe: any; // optional
   keyCodeSpecified: boolean;
+  charPressed:string;
 
   constructor(
     private _element: ElementRef,
@@ -105,6 +111,10 @@ export class MentionDirective implements OnInit, OnChanges {
     if (changes['mention']) {
       this.ngOnInit();
     }
+  }
+
+  arrayContains(arrhaystack, needle) {
+    return (arrhaystack.indexOf(needle) > -1);
   }
 
   setIframe(iframe: HTMLIFrameElement) {
@@ -152,7 +162,8 @@ export class MentionDirective implements OnInit, OnChanges {
       setCaretPosition(this.startNode, pos, this.iframe);
     }
     //console.log("keyHandler", this.startPos, pos, val, charPressed, event);
-    if (charPressed == this.triggerChar) {
+    if (this.arrayContains(this.triggerChar, charPressed)) {
+      this.charPressed = charPressed;
       this.startPos = pos;
       this.startNode = (this.iframe ? this.iframe.contentWindow.getSelection() : window.getSelection()).anchorNode;
       this.stopSearch = false;
@@ -232,6 +243,17 @@ export class MentionDirective implements OnInit, OnChanges {
 
   updateSearchList() {
     let matches: any[] = [];
+    if(this.itemsObject) {
+        let items = this.itemsObject[this.charPressed];
+        this.items = items.map((label) => {
+          let object = {};
+          object[this.labelKey] = label;
+          return object;
+        });
+      // remove items without an labelKey (as it's required to filter the list)
+      this.items = this.items.filter(e => e[this.labelKey]);
+      this.items.sort((a,b)=>a[this.labelKey].localeCompare(b[this.labelKey]));
+    }
     if (this.items) {
       let objects = this.items;
       // disabling the search relies on the async operation to do the filtering
