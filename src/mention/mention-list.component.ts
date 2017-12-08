@@ -14,8 +14,45 @@ import { getCaretCoordinates } from './caret-coords';
  */
 @Component({
   selector: 'mention-list',
-  styleUrls: ['./mention-list.component.css'],
   template: `
+    <style>
+      :host ul {
+        position: absolute;
+        /*width: inherit;*/
+        margin-top: 0px;
+        background: #FFF;
+        list-style-type: none;
+        padding: 0px;
+        left: 16px;
+        z-index: 999;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      :host ul li {
+        padding: 5px 10px 5px 5px;
+        border-bottom: 1px solid #c1c1c1;
+      }
+
+      :host ul li:last-child {
+        border: none;
+      }
+
+      :host ul li.active {
+        /*background-color: #f7f7f9;*/
+        background-color: lightblue;
+      }
+
+      :host /deep/ .scrollable-menu {
+        display: block;
+        height: auto;
+        max-height: 300px;
+        overflow: auto;
+      }
+
+      :host [hidden] {
+        display: none;
+      }
+    </style>
     <ng-template #defaultItemTemplate let-item="item">
       {{item[labelKey]}}
     </ng-template>
