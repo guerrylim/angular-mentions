@@ -229,13 +229,22 @@ export class MentionDirective implements OnInit, OnChanges {
           return false;
         }
         else {
-          let mention = val.substring(this.startPos + 1, pos);
-          if (event.keyCode !== KEY_BACKSPACE) {
-            mention += charPressed;
-          }
-          this.searchString = mention;
-          this.searchTerm.emit(this.searchString);
-          this.updateSearchList();
+          //Change for 한글 입력 처리
+          setTimeout(()=>{
+            //console.log("native val:" + nativeElement.value);
+            let mention = nativeElement.value.substring(this.startPos + 1, pos + 1).trim();
+            this.searchString = mention;
+            this.searchTerm.emit(this.searchString);
+            this.updateSearchList();
+          }, 200);
+
+          // let mention = val.substring(this.startPos + 1, pos);
+          // if (event.keyCode !== KEY_BACKSPACE) {
+          //   mention += charPressed;
+          // }
+          // this.searchString = mention;
+          // this.searchTerm.emit(this.searchString);
+          // this.updateSearchList();
         }
       }
     }
