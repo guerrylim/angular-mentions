@@ -29,7 +29,7 @@ import { getCaretCoordinates } from './caret-coords';
       }
 
       :host ul li {
-        padding: 5px 10px 5px 5px;
+        /*padding: 5px 10px 5px 5px;*/
         border-bottom: 1px solid #c1c1c1;
       }
 
@@ -39,7 +39,7 @@ import { getCaretCoordinates } from './caret-coords';
 
       :host ul li.active {
         /*background-color: #f7f7f9;*/
-        background-color: lightblue;
+        /*background-color: lightblue;*/
       }
 
       :host /deep/ .scrollable-menu {
