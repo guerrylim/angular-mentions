@@ -233,6 +233,7 @@ export class MentionDirective implements OnInit, OnChanges {
           setTimeout(()=>{
             //console.log("native val:" + nativeElement.value);
             let mention = nativeElement.value.substring(this.startPos + 1, pos + 1).trim();
+            console.log("native val mention:" + mention);
             this.searchString = mention;
             this.searchTerm.emit(this.searchString);
             this.updateSearchList();
