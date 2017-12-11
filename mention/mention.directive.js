@@ -38,7 +38,7 @@ var MentionDirective = (function () {
         // option to limit the number of items shown in the pop-up menu
         this.maxItems = -1;
         // optional function to format the selected item before inserting the text
-        this.mentionSelect = function (item) { return _this.charPressed + item[_this.labelKey]; };
+        this.mentionSelect = function (item) { return item[_this.labelKey]; };
     }
     Object.defineProperty(MentionDirective.prototype, "mention", {
         set: function (items) {
@@ -111,8 +111,11 @@ var MentionDirective = (function () {
         }
     };
     MentionDirective.prototype.keyHandler = function (event, nativeElement) {
-        var _this = this;
         if (nativeElement === void 0) { nativeElement = this._element.nativeElement; }
+        if (event.keyCode === KEY_SHIFT) {
+            this.stopEvent(event);
+            return false;
+        }
         var val = mention_utils_1.getValue(nativeElement);
         var pos = mention_utils_1.getCaretPosition(nativeElement, this.iframe);
         var charPressed = this.keyCodeSpecified ? event.keyCode : event.key;
@@ -146,14 +149,14 @@ var MentionDirective = (function () {
             this.updateSearchList();
         }
         else if (this.startPos >= 0 && !this.stopSearch) {
-            if (pos <= this.startPos) {
+            if (pos < this.startPos) {
                 this.searchList.hidden = true;
             }
             else if (event.keyCode !== KEY_SHIFT &&
                 !event.metaKey &&
                 !event.altKey &&
                 !event.ctrlKey &&
-                pos > this.startPos) {
+                pos >= this.startPos) {
                 if (event.keyCode === KEY_SPACE) {
                     this.startPos = -1;
                 }
@@ -200,14 +203,13 @@ var MentionDirective = (function () {
                 }
                 else {
                     //Change for 한글 입력 처리
-                    setTimeout(function () {
-                        //console.log("native val:" + nativeElement.value);
-                        var mention = nativeElement.value.substring(_this.startPos + 1, pos + 1).trim();
-                        console.log("native val mention:" + mention);
-                        _this.searchString = mention;
-                        _this.searchTerm.emit(_this.searchString);
-                        _this.updateSearchList();
-                    }, 200);
+                    //setTimeout(()=>{
+                    //console.log("native val:" + nativeElement.value);
+                    var mention = nativeElement.value.substring(this.startPos, pos).trim();
+                    //console.log("native val mention:" + mention);
+                    this.searchString = mention;
+                    this.searchTerm.emit(this.searchString);
+                    this.updateSearchList();
                 }
             }
         }
@@ -271,7 +273,6 @@ MentionDirective.decorators = [
     { type: core_1.Directive, args: [{
                 selector: '[mention]',
                 host: {
-                    // '(keydown)': 'keyHandler($event)',
                     '(keyup)': 'keyHandler($event)',
                     '(blur)': 'blurHandler($event)'
                 }

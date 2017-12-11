@@ -25,7 +25,6 @@ const KEY_2 = 50;
 @Directive({
   selector: '[mention]',
   host: {
-    // '(keydown)': 'keyHandler($event)',
     '(keyup)': 'keyHandler($event)',
     '(blur)': 'blurHandler($event)'
   }
@@ -69,7 +68,7 @@ export class MentionDirective implements OnInit, OnChanges {
   private maxItems:number = -1;
 
   // optional function to format the selected item before inserting the text
-  private mentionSelect: (item: any) => (string) = (item: any) => this.charPressed + item[this.labelKey];
+  private mentionSelect: (item: any) => (string) = (item: any) => item[this.labelKey];
 
   searchString: string;
   startPos: number;
@@ -140,6 +139,11 @@ export class MentionDirective implements OnInit, OnChanges {
   }
 
   keyHandler(event: any, nativeElement: HTMLInputElement = this._element.nativeElement) {
+    if (event.keyCode === KEY_SHIFT) {
+      this.stopEvent(event);
+      return false;
+    }
+
     let val: string = getValue(nativeElement);
     let pos = getCaretPosition(nativeElement, this.iframe);
     let charPressed = this.keyCodeSpecified ? event.keyCode : event.key;
@@ -173,7 +177,7 @@ export class MentionDirective implements OnInit, OnChanges {
       this.updateSearchList();
     }
     else if (this.startPos >= 0 && !this.stopSearch) {
-      if (pos <= this.startPos) {
+      if (pos < this.startPos) {
         this.searchList.hidden = true;
       }
       // ignore shift when pressed alone, but not when used with another key
@@ -181,7 +185,7 @@ export class MentionDirective implements OnInit, OnChanges {
           !event.metaKey &&
           !event.altKey &&
           !event.ctrlKey &&
-          pos > this.startPos
+          pos >= this.startPos
       ) {
         if (event.keyCode === KEY_SPACE) {
           this.startPos = -1;
@@ -231,14 +235,14 @@ export class MentionDirective implements OnInit, OnChanges {
         }
         else {
           //Change for 한글 입력 처리
-          setTimeout(()=>{
+          //setTimeout(()=>{
             //console.log("native val:" + nativeElement.value);
-            let mention = nativeElement.value.substring(this.startPos + 1, pos + 1).trim();
-            console.log("native val mention:" + mention);
+            let mention = nativeElement.value.substring(this.startPos, pos).trim();
+            //console.log("native val mention:" + mention);
             this.searchString = mention;
             this.searchTerm.emit(this.searchString);
             this.updateSearchList();
-          }, 200);
+          //}, 200);
 
           // let mention = val.substring(this.startPos + 1, pos);
           // if (event.keyCode !== KEY_BACKSPACE) {
