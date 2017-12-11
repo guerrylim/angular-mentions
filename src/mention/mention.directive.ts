@@ -25,7 +25,8 @@ const KEY_2 = 50;
 @Directive({
   selector: '[mention]',
   host: {
-    '(keydown)': 'keyHandler($event)',
+    // '(keydown)': 'keyHandler($event)',
+    '(keyup)': 'keyHandler($event)',
     '(blur)': 'blurHandler($event)'
   }
 })
