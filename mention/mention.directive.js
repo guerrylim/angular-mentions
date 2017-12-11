@@ -271,7 +271,8 @@ MentionDirective.decorators = [
     { type: core_1.Directive, args: [{
                 selector: '[mention]',
                 host: {
-                    '(keydown)': 'keyHandler($event)',
+                    // '(keydown)': 'keyHandler($event)',
+                    '(keyup)': 'keyHandler($event)',
                     '(blur)': 'blurHandler($event)'
                 }
             },] },
