@@ -160,13 +160,15 @@ export class MentionDirective implements OnInit, OnChanges {
         // http://stackoverflow.com/questions/2220196/how-to-decode-character-pressed-from-jquerys-keydowns-event-handler?lq=1
         charPressed = String.fromCharCode(event.which || event.keyCode);
       }
+    } else if (charPressed === 'Unidentified' && event.keyCode == 229) {
+      charPressed = val.charAt(pos);
     }
+    console.log("keyHandler", pos, val, charPressed, event);
     if (event.keyCode == KEY_ENTER && event.wasClick && pos < this.startPos) {
       // put caret back in position prior to contenteditable menu click
       pos = this.startNode.length;
       setCaretPosition(this.startNode, pos, this.iframe);
     }
-    //console.log("keyHandler", this.startPos, pos, val, charPressed, event);
     if (this.arrayContains(this.triggerChar, charPressed)) {
       this.charPressed = charPressed;
       this.startPos = pos;

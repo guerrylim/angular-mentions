@@ -133,12 +133,15 @@ var MentionDirective = (function () {
                 charPressed = String.fromCharCode(event.which || event.keyCode);
             }
         }
+        else if (charPressed === 'Unidentified' && event.keyCode == 229) {
+            charPressed = val.charAt(pos);
+        }
+        console.log("keyHandler", pos, val, charPressed, event);
         if (event.keyCode == KEY_ENTER && event.wasClick && pos < this.startPos) {
             // put caret back in position prior to contenteditable menu click
             pos = this.startNode.length;
             mention_utils_1.setCaretPosition(this.startNode, pos, this.iframe);
         }
-        //console.log("keyHandler", this.startPos, pos, val, charPressed, event);
         if (this.arrayContains(this.triggerChar, charPressed)) {
             this.charPressed = charPressed;
             this.startPos = pos;
