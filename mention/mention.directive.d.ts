@@ -15,6 +15,7 @@ export declare class MentionDirective implements OnInit, OnChanges {
     mentionConfig: any;
     mentionListTemplate: TemplateRef<any>;
     searchTerm: EventEmitter<{}>;
+    onItemSelected: EventEmitter<{}>;
     private triggerChar;
     private labelKey;
     private disableSearch;

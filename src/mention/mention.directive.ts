@@ -24,6 +24,7 @@ const KEY_2 = 50;
  */
 @Directive({
   selector: '[mention]',
+  outputs: ['searchTerm', 'onItemSelected'],
   host: {
     '(keyup)': 'keyHandler($event)',
     '(blur)': 'blurHandler($event)'
@@ -52,7 +53,8 @@ export class MentionDirective implements OnInit, OnChanges {
   @Input() mentionListTemplate: TemplateRef<any>;
 
   // event emitted whenever the search term changes
-  @Output() searchTerm = new EventEmitter();
+  searchTerm = new EventEmitter();
+  onItemSelected = new EventEmitter();
 
   // the character that will trigger the menu behavior
   private triggerChar: string | number | string[] = ['@', '#'];
@@ -211,6 +213,7 @@ export class MentionDirective implements OnInit, OnChanges {
               nativeElement.dispatchEvent(evt);
             }
             this.startPos = -1;
+            this.onItemSelected.emit(this.searchList.activeItem.label);
             return false;
           }
           else if (event.keyCode === KEY_ESCAPE) {

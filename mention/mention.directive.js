@@ -28,6 +28,7 @@ var MentionDirective = (function () {
         this._viewContainerRef = _viewContainerRef;
         // event emitted whenever the search term changes
         this.searchTerm = new core_2.EventEmitter();
+        this.onItemSelected = new core_2.EventEmitter();
         // the character that will trigger the menu behavior
         this.triggerChar = ['@', '#'];
         // option to specify the field in the objects to be used as the item label
@@ -38,7 +39,7 @@ var MentionDirective = (function () {
         // option to limit the number of items shown in the pop-up menu
         this.maxItems = -1;
         // optional function to format the selected item before inserting the text
-        this.mentionSelect = function (item) { return item[_this.labelKey]; };
+        this.mentionSelect = function (item) { return item[_this.labelKey] + ' '; };
     }
     Object.defineProperty(MentionDirective.prototype, "mention", {
         set: function (items) {
@@ -181,6 +182,7 @@ var MentionDirective = (function () {
                             nativeElement.dispatchEvent(evt);
                         }
                         this.startPos = -1;
+                        this.onItemSelected.emit(this.searchList.activeItem.label);
                         return false;
                     }
                     else if (event.keyCode === KEY_ESCAPE) {
@@ -275,6 +277,7 @@ var MentionDirective = (function () {
 MentionDirective.decorators = [
     { type: core_1.Directive, args: [{
                 selector: '[mention]',
+                outputs: ['searchTerm', 'onItemSelected'],
                 host: {
                     '(keyup)': 'keyHandler($event)',
                     '(blur)': 'blurHandler($event)'
@@ -291,6 +294,5 @@ MentionDirective.propDecorators = {
     'mention': [{ type: core_1.Input },],
     'mentionConfig': [{ type: core_1.Input },],
     'mentionListTemplate': [{ type: core_1.Input },],
-    'searchTerm': [{ type: core_2.Output },],
 };
 exports.MentionDirective = MentionDirective;
