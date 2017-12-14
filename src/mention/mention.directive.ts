@@ -52,10 +52,6 @@ export class MentionDirective implements OnInit, OnChanges {
   // template to use for rendering list items
   @Input() mentionListTemplate: TemplateRef<any>;
 
-  // event emitted whenever the search term changes
-  searchTerm = new EventEmitter();
-  onItemSelected = new EventEmitter();
-
   // the character that will trigger the menu behavior
   private triggerChar: string | number | string[] = ['@', '#'];
 
@@ -72,6 +68,9 @@ export class MentionDirective implements OnInit, OnChanges {
   // optional function to format the selected item before inserting the text
   private mentionSelect: (item: any) => (string) = (item: any) => item[this.labelKey] + ' ';
 
+  // event emitted whenever the search term changes
+  searchTerm = new EventEmitter();
+  onItemSelected = new EventEmitter();
   searchString: string;
   startPos: number;
   items: any[];
@@ -165,7 +164,7 @@ export class MentionDirective implements OnInit, OnChanges {
     } else if (charPressed === 'Unidentified' && event.keyCode == 229) {
       charPressed = val.charAt(pos-1);
     }
-    //console.log(`keyHandler pos:${pos} val:${val} charPressed: ${charPressed} ${val.charAt(pos-1)} keyCode:${event.keyCode} event.key:${event.key}`, event);
+    console.log(`keyHandler pos:${pos} val:${val} charPressed: ${charPressed} ${val.charAt(pos-1)} keyCode:${event.keyCode} event.key:${event.key}`, event);
     if (event.keyCode == KEY_ENTER && event.wasClick && pos < this.startPos) {
       // put caret back in position prior to contenteditable menu click
       pos = this.startNode.length;

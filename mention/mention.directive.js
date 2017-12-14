@@ -26,9 +26,6 @@ var MentionDirective = (function () {
         this._element = _element;
         this._componentResolver = _componentResolver;
         this._viewContainerRef = _viewContainerRef;
-        // event emitted whenever the search term changes
-        this.searchTerm = new core_2.EventEmitter();
-        this.onItemSelected = new core_2.EventEmitter();
         // the character that will trigger the menu behavior
         this.triggerChar = ['@', '#'];
         // option to specify the field in the objects to be used as the item label
@@ -40,6 +37,9 @@ var MentionDirective = (function () {
         this.maxItems = -1;
         // optional function to format the selected item before inserting the text
         this.mentionSelect = function (item) { return item[_this.labelKey] + ' '; };
+        // event emitted whenever the search term changes
+        this.searchTerm = new core_2.EventEmitter();
+        this.onItemSelected = new core_2.EventEmitter();
     }
     Object.defineProperty(MentionDirective.prototype, "mention", {
         set: function (items) {
@@ -137,7 +137,7 @@ var MentionDirective = (function () {
         else if (charPressed === 'Unidentified' && event.keyCode == 229) {
             charPressed = val.charAt(pos - 1);
         }
-        //console.log(`keyHandler pos:${pos} val:${val} charPressed: ${charPressed} ${val.charAt(pos-1)} keyCode:${event.keyCode} event.key:${event.key}`, event);
+        console.log("keyHandler pos:" + pos + " val:" + val + " charPressed: " + charPressed + " " + val.charAt(pos - 1) + " keyCode:" + event.keyCode + " event.key:" + event.key, event);
         if (event.keyCode == KEY_ENTER && event.wasClick && pos < this.startPos) {
             // put caret back in position prior to contenteditable menu click
             pos = this.startNode.length;

@@ -14,13 +14,13 @@ export declare class MentionDirective implements OnInit, OnChanges {
     mention: any[] | any;
     mentionConfig: any;
     mentionListTemplate: TemplateRef<any>;
-    searchTerm: EventEmitter<{}>;
-    onItemSelected: EventEmitter<{}>;
     private triggerChar;
     private labelKey;
     private disableSearch;
     private maxItems;
     private mentionSelect;
+    searchTerm: EventEmitter<{}>;
+    onItemSelected: EventEmitter<{}>;
     searchString: string;
     startPos: number;
     items: any[];
