@@ -164,7 +164,7 @@ export class MentionDirective implements OnInit, OnChanges {
     } else if (charPressed === 'Unidentified' && event.keyCode == 229) {
       charPressed = val.charAt(pos-1);
     }
-    console.log(`keyHandler pos:${pos} val:${val} charPressed: ${charPressed} ${val.charAt(pos-1)} keyCode:${event.keyCode} event.key:${event.key}`, event);
+    //console.log(`keyHandler pos:${pos} val:${val} charPressed: ${charPressed} ${val.charAt(pos-1)} keyCode:${event.keyCode} event.key:${event.key}`, event);
     if (event.keyCode == KEY_ENTER && event.wasClick && pos < this.startPos) {
       // put caret back in position prior to contenteditable menu click
       pos = this.startNode.length;

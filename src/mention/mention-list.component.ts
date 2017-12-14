@@ -14,22 +14,22 @@ import { getCaretCoordinates } from './caret-coords';
  */
 @Component({
   selector: 'mention-list',
-  styles: [`
-      .scrollable-menu {
-        display: block;
-        height: auto;
-        max-height: 300px;
-        overflow: auto;
-      }
-    `,`
-      [hidden] {
-        display: none;
-      }
-    `,`
-      li.active {
-        background-color: #f7f7f9;
-      }
-    `],
+  // styles: [`
+  //     .scrollable-menu {
+  //       display: block;
+  //       height: auto;
+  //       max-height: 300px;
+  //       overflow: auto;
+  //     }
+  //   `,`
+  //     [hidden] {
+  //       display: none;
+  //     }
+  //   `,`
+  //     li.active {
+  //       background-color: #f7f7f9;
+  //     }
+  //   `],
   template: `
     <ng-template #defaultItemTemplate let-item="item">
       {{item[labelKey]}}

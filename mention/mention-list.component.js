@@ -98,7 +98,22 @@ var MentionListComponent = (function () {
 MentionListComponent.decorators = [
     { type: core_1.Component, args: [{
                 selector: 'mention-list',
-                styles: ["\n      .scrollable-menu {\n        display: block;\n        height: auto;\n        max-height: 300px;\n        overflow: auto;\n      }\n    ", "\n      [hidden] {\n        display: none;\n      }\n    ", "\n      li.active {\n        background-color: #f7f7f9;\n      }\n    "],
+                // styles: [`
+                //     .scrollable-menu {
+                //       display: block;
+                //       height: auto;
+                //       max-height: 300px;
+                //       overflow: auto;
+                //     }
+                //   `,`
+                //     [hidden] {
+                //       display: none;
+                //     }
+                //   `,`
+                //     li.active {
+                //       background-color: #f7f7f9;
+                //     }
+                //   `],
                 template: "\n    <ng-template #defaultItemTemplate let-item=\"item\">\n      {{item[labelKey]}}\n    </ng-template>\n    <ul #list [hidden]=\"hidden\" class=\"dropdown-menu scrollable-menu\">\n        <li *ngFor=\"let item of items; let i = index\" [class.active]=\"activeIndex==i\">\n            <a class=\"dropdown-item\" (mousedown)=\"activeIndex=i;itemClick.emit();$event.preventDefault()\">\n              <ng-template [ngTemplateOutlet]=\"itemTemplate\" [ngTemplateOutletContext]=\"{'item':item}\"></ng-template>\n            </a>\n        </li>\n    </ul>\n    "
             },] },
 ];
